@@ -537,6 +537,14 @@ func (r *ApplicationSetReconciler) generateApplications(applicationSetInfo argov
 }
 
 func (r *ApplicationSetReconciler) SetupWithManager(mgr ctrl.Manager, enableProgressiveSyncs bool, maxConcurrentReconciliations int) error {
+	cache := mgr.GetCache()
+	indexFunc := func(obj runtime.Object) []string {
+		return []string{obj.(*argov1alpha1.Application).Spec.Destination.Name}
+	}
+	if err := cache.IndexField(&argov1alpha.Application{}, "spec.destination.name", indexFunc); err != nil {
+		return err
+	}
+	
 	if err := mgr.GetFieldIndexer().IndexField(context.TODO(), &argov1alpha1.Application{}, ".metadata.controller", func(rawObj client.Object) []string {
 		// grab the job object, extract the owner...
 		app := rawObj.(*argov1alpha1.Application)
