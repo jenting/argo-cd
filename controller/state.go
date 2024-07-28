@@ -113,6 +113,7 @@ type appStateManager struct {
 	statusRefreshTimeout  time.Duration
 	resourceTracking      argo.ResourceTracking
 	persistResourceHealth bool
+	persistReconciledAt   bool
 	repoErrorCache        goSync.Map
 	repoErrorGracePeriod  time.Duration
 	serverSideDiff        bool
@@ -972,6 +973,7 @@ func NewAppStateManager(
 	statusRefreshTimeout time.Duration,
 	resourceTracking argo.ResourceTracking,
 	persistResourceHealth bool,
+	persistReconciledAt bool,
 	repoErrorGracePeriod time.Duration,
 	serverSideDiff bool,
 	ignoreNormalizerOpts normalizers.IgnoreNormalizerOpts,
@@ -990,6 +992,7 @@ func NewAppStateManager(
 		statusRefreshTimeout:  statusRefreshTimeout,
 		resourceTracking:      resourceTracking,
 		persistResourceHealth: persistResourceHealth,
+		persistReconciledAt:   persistReconciledAt,
 		repoErrorGracePeriod:  repoErrorGracePeriod,
 		serverSideDiff:        serverSideDiff,
 		ignoreNormalizerOpts:  ignoreNormalizerOpts,
